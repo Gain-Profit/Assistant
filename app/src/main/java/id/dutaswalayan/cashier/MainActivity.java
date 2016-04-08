@@ -13,10 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    String[] items;
+    ArrayList<String> listItems;
+    ArrayAdapter<String> adapter;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +50,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        listView = (ListView) findViewById(R.id.listView);
+        initList();
+    }
+
+    private void initList() {
+        items = new String[]{"jakarta","surabaya","bandung","pasuruan","malang"};
+        listItems = new ArrayList<>(Arrays.asList(items));
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listItems);
+        listView.setAdapter(adapter);
     }
 
     @Override
