@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.basicsyncadapter.provider;
+package id.dutaswalayan.cashier.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -25,7 +25,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
-import com.example.android.common.db.SelectionBuilder;
+import id.dutaswalayan.cashier.common.db.SelectionBuilder;
 
 public class FeedProvider extends ContentProvider {
     FeedDatabase mDatabaseHelper;
