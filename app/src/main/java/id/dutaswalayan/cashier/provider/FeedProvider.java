@@ -16,6 +16,7 @@
 
 package id.dutaswalayan.cashier.provider;
 
+import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,11 +25,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
 import id.dutaswalayan.cashier.common.db.SelectionBuilder;
 
 public class FeedProvider extends ContentProvider {
+    private static final String TAG = "FeedProvider";
     FeedDatabase mDatabaseHelper;
+
+    /**
+     * Projection for querying the content provider.
+     */
+    private static final String[] PROJECTION = new String[]{
+            FeedContract.Product._ID,
+            FeedContract.Product.COLUMN_DESCRIPTION,
+            FeedContract.Product.COLUMN_UNIT,
+            FeedContract.Product.COLUMN_PRICE
+    };
 
     /**
      * Content authority for this provider.
@@ -52,12 +65,18 @@ public class FeedProvider extends ContentProvider {
     public static final int ROUTE_PRODUCTS_ID = 2;
 
     /**
+     * URI ID for route: /products/{ID}
+     */
+    private static final int SEARCH_SUGGEST = 3;
+    /**
      * UriMatcher, used to decode incoming URIs.
      */
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
         sUriMatcher.addURI(AUTHORITY, "products", ROUTE_PRODUCTS);
         sUriMatcher.addURI(AUTHORITY, "products/*", ROUTE_PRODUCTS_ID);
+        sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_QUERY, SEARCH_SUGGEST);
+        sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_QUERY + "/*", SEARCH_SUGGEST);
     }
 
     @Override
@@ -91,22 +110,39 @@ public class FeedProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
+        Log.i(TAG,"Uri: "+ uri);
+        Cursor c;
+        Context ctx;
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
         SelectionBuilder builder = new SelectionBuilder();
         int uriMatch = sUriMatcher.match(uri);
         switch (uriMatch) {
             case ROUTE_PRODUCTS_ID:
+                Log.i(TAG,"route products id");
                 // Return a single entry, by ID.
                 String id = uri.getLastPathSegment();
                 builder.where(FeedContract.Product._ID + "=?", id);
             case ROUTE_PRODUCTS:
+                Log.i(TAG,"route products");
                 // Return all known entries.
                 builder.table(FeedContract.Product.TABLE_NAME)
                         .where(selection, selectionArgs);
-                Cursor c = builder.query(db, projection, sortOrder);
+                c = builder.query(db, projection, sortOrder);
                 // Note: Notification URI must be manually set here for loaders to correctly
                 // register ContentObservers.
-                Context ctx = getContext();
+                ctx = getContext();
+                assert ctx != null;
+                c.setNotificationUri(ctx.getContentResolver(), uri);
+                return c;
+            case SEARCH_SUGGEST:
+                Log.i(TAG,"search suggest");
+                // Return all known entries.
+                builder.table(FeedContract.Product.TABLE_NAME)
+                        .where(FeedContract.Product.COLUMN_DESCRIPTION + " LIKE ?", "%" + selectionArgs[0] + "%");
+                c = builder.query(db, PROJECTION, sortOrder);
+                // Note: Notification URI must be manually set here for loaders to correctly
+                // register ContentObservers.
+                ctx = getContext();
                 assert ctx != null;
                 c.setNotificationUri(ctx.getContentResolver(), uri);
                 return c;
