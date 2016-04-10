@@ -91,7 +91,7 @@ import java.util.Map;
  * This class is <em>not</em> thread safe.
  */
 public class SelectionBuilder {
-    private static final String TAG = "basicsyncadapter";
+    private static final String TAG = "cashier";
 
     private String mTable = null;
     private Map<String, String> mProjectionMap = new HashMap<String, String>();
@@ -339,6 +339,7 @@ public class SelectionBuilder {
     public int update(SQLiteDatabase db, ContentValues values) {
         assertTable();
         Log.v(TAG, "update() " + this);
+
         return db.update(mTable, values, getSelection(), getSelectionArgs());
     }
 
