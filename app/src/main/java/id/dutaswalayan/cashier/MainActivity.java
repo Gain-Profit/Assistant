@@ -1,9 +1,13 @@
 package id.dutaswalayan.cashier;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,13 +17,75 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.database.Cursor;
+import android.widget.ListView;
+
+import id.dutaswalayan.cashier.provider.FeedContract;
+import id.dutaswalayan.cashier.sync.SyncUtils;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final String TAG = "MainActivity";
+
+    private ListView mListView;
+
+    /**
+     * Cursor adapter for controlling ListView results.
+     */
+    private SimpleCursorAdapter mAdapter;
+
+    /**
+     * Handle to a SyncObserver. The ProgressBar element is visible until the SyncObserver reports
+     * that the sync is complete.
+     *
+     * <p>This allows us to delete our SyncObserver once the application is no longer in the
+     * foreground.
+     */
+    private Object mSyncObserverHandle;
+
+    /**
+     * Projection for querying the content provider.
+     */
+    private static final String[] PROJECTION = new String[]{
+            FeedContract.Product._ID,
+            FeedContract.Product.COLUMN_DESCRIPTION,
+            FeedContract.Product.COLUMN_UNIT,
+            FeedContract.Product.COLUMN_PRICE
+    };
+
+    // Column indexes. The index of a column in the Cursor is the same as its relative position in
+    // the projection.
+    /** Column index for _ID */
+    private static final int COLUMN_ID = 0;
+    /** Column index for title */
+    private static final int COLUMN_DESCRIPTION = 1;
+    /** Column index for link */
+    private static final int COLUMN_UNIT = 2;
+    /** Column index for published */
+    private static final int COLUMN_PRICE = 3;
+
+    /**
+     * List of Cursor columns to read from when preparing an adapter to populate the ListView.
+     */
+    private static final String[] FROM_COLUMNS = new String[]{
+            FeedContract.Product.COLUMN_DESCRIPTION,
+            FeedContract.Product.COLUMN_PRICE
+    };
+
+    /**
+     * List of Views which will be populated by Cursor data.
+     */
+    private static final int[] TO_FIELDS = new int[]{
+            android.R.id.text1,
+            android.R.id.text2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SyncUtils.CreateSyncAccount(this);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -28,7 +94,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                SyncUtils.TriggerRefresh();
+                Snackbar.make(view, "Refresh Data...", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -41,6 +108,20 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mListView = (ListView) findViewById(R.id.listView);
+
+        mAdapter = new SimpleCursorAdapter(
+                this,       // Current context
+                android.R.layout.simple_list_item_activated_2,  // Layout for individual rows
+                null,                // Cursor
+                FROM_COLUMNS,        // Cursor columns to use
+                TO_FIELDS,           // Layout fields to use
+                0                    // No flags
+        );
+
+        mListView.setAdapter(mAdapter);
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -99,5 +180,27 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // We only have one loader, so we can ignore the value of i.
+        // (It'll be '0', as set in onCreate().)
+        return new CursorLoader(this,  // Context
+                FeedContract.Product.CONTENT_URI, // URI
+                PROJECTION,                // Projection
+                null,                           // Selection
+                null,                           // Selection args
+                FeedContract.Product.COLUMN_DESCRIPTION + " asc"); // Sort
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mAdapter.changeCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mAdapter.changeCursor(null);
     }
 }
