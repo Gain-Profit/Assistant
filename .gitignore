@@ -33,5 +33,5 @@ captures/
 
 # from android studio
 *.iml
-/.idea/workspace.xml
+.idea
 .DS_Store
