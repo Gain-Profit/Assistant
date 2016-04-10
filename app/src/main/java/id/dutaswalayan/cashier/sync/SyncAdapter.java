@@ -65,7 +65,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
      * <p>This points to the Android Developers Blog. (Side note: We highly recommend reading the
      * Android Developer Blog to stay up to date on the latest Android platform developments!)
      */
-    private static final String FEED_URL = "http://localhost/dutaswalan/barang.json";
+    private static final String FEED_URL = "http://10.0.3.2/dutaswalayan/products.json";
 
     /**
      * Network connection timeout, in milliseconds.
@@ -250,9 +250,9 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
                     // Update existing record
                     Log.i(TAG, "Scheduling update: " + existingUri);
                     batch.add(ContentProviderOperation.newUpdate(existingUri)
-                            .withValue(FeedContract.Product.COLUMN_DESCRIPTION, description)
-                            .withValue(FeedContract.Product.COLUMN_UNIT, unit)
-                            .withValue(FeedContract.Product.COLUMN_PRICE, price)
+                            .withValue(FeedContract.Product.COLUMN_DESCRIPTION, match.description)
+                            .withValue(FeedContract.Product.COLUMN_UNIT, match.unit)
+                            .withValue(FeedContract.Product.COLUMN_PRICE, match.price)
                             .build());
                     syncResult.stats.numUpdates++;
                 } else {
