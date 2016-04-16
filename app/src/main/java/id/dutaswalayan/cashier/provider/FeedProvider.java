@@ -248,7 +248,7 @@ public class FeedProvider extends ContentProvider {
      */
     static class FeedDatabase extends SQLiteOpenHelper {
         /** Schema version. */
-        public static final int DATABASE_VERSION = 1;
+        public static final int DATABASE_VERSION = 2;
         /** Filename for SQLite file. */
         public static final String DATABASE_NAME = "product.db";
 
@@ -262,7 +262,9 @@ public class FeedProvider extends ContentProvider {
                         FeedContract.Product.COLUMN_PRODUCT_ID + TYPE_TEXT + COMMA_SEP +
                         FeedContract.Product.COLUMN_DESCRIPTION    + TYPE_TEXT + COMMA_SEP +
                         FeedContract.Product.COLUMN_UNIT + TYPE_TEXT + COMMA_SEP +
-                        FeedContract.Product.COLUMN_PRICE + TYPE_INTEGER + ")";
+                        FeedContract.Product.COLUMN_PRICE + TYPE_INTEGER + COMMA_SEP +
+                        FeedContract.Product.COLUMN_BARCODE + TYPE_TEXT + COMMA_SEP +
+                        FeedContract.Product.COLUMN_UPDATED + TYPE_TEXT + ")";
 
         /** SQL statement to drop "entry" table. */
         private static final String SQL_DELETE_ENTRIES =
