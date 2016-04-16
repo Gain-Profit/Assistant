@@ -91,7 +91,7 @@ import java.util.Map;
  * This class is <em>not</em> thread safe.
  */
 public class SelectionBuilder {
-    private static final String TAG = "cashier";
+    private static final String TAG = "SelectionBuilder";
 
     private String mTable = null;
     private Map<String, String> mProjectionMap = new HashMap<String, String>();
