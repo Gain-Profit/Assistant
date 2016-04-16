@@ -1,4 +1,4 @@
-package id.dutaswalayan.cashier;
+package com.dutaswalayan.assistant;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

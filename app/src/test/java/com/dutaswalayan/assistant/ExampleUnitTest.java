@@ -1,4 +1,4 @@
-package id.dutaswalayan.cashier;
+package com.dutaswalayan.assistant;
 
 import org.junit.Test;
 

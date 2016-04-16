@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package id.dutaswalayan.cashier.provider;
+package com.dutaswalayan.assistant.provider;
 
-import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -27,7 +26,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
 
-import id.dutaswalayan.cashier.common.db.SelectionBuilder;
+import com.dutaswalayan.assistant.common.db.SelectionBuilder;
 
 public class FeedProvider extends ContentProvider {
     private static final String TAG = "FeedProvider";

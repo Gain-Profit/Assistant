@@ -1,4 +1,4 @@
-package id.dutaswalayan.cashier.provider;
+package com.dutaswalayan.assistant.provider;
 
 import android.content.ContentResolver;
 import android.net.Uri;
@@ -12,10 +12,10 @@ public class FeedContract {
     /**
      * Content provider authority.
      */
-    public static final String CONTENT_AUTHORITY = "id.dutaswalayan.cashier";
+    public static final String CONTENT_AUTHORITY = "com.dutaswalayan.assistant";
 
     /**
-     * Base URI. (content://id.dutaswalayan.cashier)
+     * Base URI. (content://com.dutaswalayan.assistant)
      */
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
@@ -32,12 +32,12 @@ public class FeedContract {
          * MIME type for lists of entries.
          */
         public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.cashier.products";
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.assistant.products";
         /**
          * MIME type for individual entries.
          */
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.cashier.product";
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.assistant.product";
 
         /**
          * Fully qualified URI for "entry" resources.

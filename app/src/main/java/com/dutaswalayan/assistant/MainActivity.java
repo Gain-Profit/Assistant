@@ -1,19 +1,16 @@
-package id.dutaswalayan.cashier;
+package com.dutaswalayan.assistant;
 
 import android.app.LoaderManager;
 import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,8 +24,8 @@ import android.database.Cursor;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 
-import id.dutaswalayan.cashier.provider.FeedContract;
-import id.dutaswalayan.cashier.sync.SyncUtils;
+import com.dutaswalayan.assistant.provider.FeedContract;
+import com.dutaswalayan.assistant.sync.SyncUtils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {

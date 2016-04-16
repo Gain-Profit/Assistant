@@ -20,7 +20,7 @@
  * -Changed package name
  */
 
-package id.dutaswalayan.cashier.common.db;
+package com.dutaswalayan.assistant.common.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;

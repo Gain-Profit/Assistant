@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package id.dutaswalayan.cashier.sync;
+package com.dutaswalayan.assistant.sync;
 
 import android.accounts.Account;
 import android.annotation.TargetApi;
@@ -44,8 +44,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import id.dutaswalayan.cashier.provider.FeedContract;
-import id.dutaswalayan.cashier.provider.FeedParser;
+import com.dutaswalayan.assistant.provider.FeedContract;
+import com.dutaswalayan.assistant.provider.FeedParser;
 
 /**
  * Define a sync adapter for the app.

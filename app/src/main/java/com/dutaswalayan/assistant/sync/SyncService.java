@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package id.dutaswalayan.cashier.sync;
+package com.dutaswalayan.assistant.sync;
 
 import android.app.Service;
 import android.content.Intent;

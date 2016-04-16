@@ -16,8 +16,8 @@ limitations under the License.
 -->
 
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
-              android:contentAuthority="id.dutaswalayan.cashier"
-              android:accountType="id.dutaswalayan.cashier.account"
+              android:contentAuthority="com.dutaswalayan.assistant"
+              android:accountType="com.dutaswalayan.assistant.account"
               android:userVisible="false"
               android:supportsUploading="false"
               android:allowParallelSyncs="false"

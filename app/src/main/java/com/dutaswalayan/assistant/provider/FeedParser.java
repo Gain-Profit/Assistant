@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package id.dutaswalayan.cashier.provider;
+package com.dutaswalayan.assistant.provider;
 
 import android.util.JsonReader;
 

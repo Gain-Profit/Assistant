@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package id.dutaswalayan.cashier.sync;
+package com.dutaswalayan.assistant.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -25,7 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import id.dutaswalayan.cashier.provider.FeedContract;
+import com.dutaswalayan.assistant.provider.FeedContract;
 
 
 /**
@@ -36,7 +36,7 @@ public class SyncUtils {
     private static final String CONTENT_AUTHORITY = FeedContract.CONTENT_AUTHORITY;
     private static final String PREF_SETUP_COMPLETE = "setup_complete";
     // Value below must match the account type specified in res/xml/syncadapter.xml
-    public static final String ACCOUNT_TYPE = "id.dutaswalayan.cashier.account";
+    public static final String ACCOUNT_TYPE = "com.dutaswalayan.assistant.account";
 
     /**
      * Create an entry for this application in the system account list, if it isn't already there.

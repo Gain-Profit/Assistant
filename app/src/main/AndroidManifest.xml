@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="id.dutaswalayan.cashier">
+    package="com.dutaswalayan.assistant">
 
     <!-- SyncAdapters are available in API 5 and above. We use API 7 as a baseline for samples. -->
     <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
@@ -41,7 +41,7 @@
         package. -->
         <provider
             android:name=".provider.FeedProvider"
-            android:authorities="id.dutaswalayan.cashier"
+            android:authorities="com.dutaswalayan.assistant"
             android:exported="false" />
 
         <!-- This service implements our SyncAdapter. It needs to be exported, so that the system
