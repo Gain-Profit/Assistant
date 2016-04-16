@@ -34,16 +34,6 @@ public class FeedProvider extends ContentProvider {
     FeedDatabase mDatabaseHelper;
 
     /**
-     * Projection for querying the content provider.
-     */
-    private static final String[] PROJECTION = new String[]{
-            FeedContract.Product._ID,
-            FeedContract.Product.COLUMN_DESCRIPTION,
-            FeedContract.Product.COLUMN_UNIT,
-            FeedContract.Product.COLUMN_PRICE
-    };
-
-    /**
      * Content authority for this provider.
      */
     private static final String AUTHORITY = FeedContract.CONTENT_AUTHORITY;
@@ -65,18 +55,12 @@ public class FeedProvider extends ContentProvider {
     public static final int ROUTE_PRODUCTS_ID = 2;
 
     /**
-     * URI ID for route: /products/{ID}
-     */
-    private static final int SEARCH_SUGGEST = 3;
-    /**
      * UriMatcher, used to decode incoming URIs.
      */
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
         sUriMatcher.addURI(AUTHORITY, "products", ROUTE_PRODUCTS);
         sUriMatcher.addURI(AUTHORITY, "products/*", ROUTE_PRODUCTS_ID);
-        sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_QUERY, SEARCH_SUGGEST);
-        sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_QUERY + "/*", SEARCH_SUGGEST);
     }
 
     @Override
@@ -128,18 +112,6 @@ public class FeedProvider extends ContentProvider {
                 builder.table(FeedContract.Product.TABLE_NAME)
                         .where(selection, selectionArgs);
                 c = builder.query(db, projection, sortOrder);
-                // Note: Notification URI must be manually set here for loaders to correctly
-                // register ContentObservers.
-                ctx = getContext();
-                assert ctx != null;
-                c.setNotificationUri(ctx.getContentResolver(), uri);
-                return c;
-            case SEARCH_SUGGEST:
-                Log.i(TAG,"search suggest");
-                // Return all known entries.
-                builder.table(FeedContract.Product.TABLE_NAME)
-                        .where(FeedContract.Product.COLUMN_DESCRIPTION + " LIKE ?", "%" + selectionArgs[0] + "%");
-                c = builder.query(db, PROJECTION, sortOrder);
                 // Note: Notification URI must be manually set here for loaders to correctly
                 // register ContentObservers.
                 ctx = getContext();
