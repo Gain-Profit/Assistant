@@ -50,6 +50,8 @@ public class FeedParser {
         String description = "";
         String unit = "";
         long price = 0;
+        String barcode = "";
+        String updated = "";
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -62,12 +64,16 @@ public class FeedParser {
                 unit = reader.nextString();
             } else if (name.equals("price")) {
                 price = reader.nextLong();
+            } else if (name.equals("barcode")) {
+                barcode = reader.nextString();
+            } else if (name.equals("updated")) {
+                updated = reader.nextString();
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return new Product(id, description, unit, price);
+        return new Product(id, description, unit, price, barcode, updated);
     }
 
     public static class Product {
@@ -75,12 +81,16 @@ public class FeedParser {
         public final String description;
         public final String unit;
         public final long price;
+        public final String barcode;
+        public final String updated;
 
-        public Product(String id, String description, String unit, long price) {
+        public Product(String id, String description, String unit, long price, String barcode, String updated) {
             this.id = id;
             this.description = description;
             this.unit = unit;
             this.price = price;
+            this.barcode = barcode;
+            this.updated = updated;
         }
     }
 }
