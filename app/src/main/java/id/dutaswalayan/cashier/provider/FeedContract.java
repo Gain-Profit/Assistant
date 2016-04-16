@@ -65,5 +65,13 @@ public class FeedContract {
          * Price for Product.
          */
         public static final String COLUMN_PRICE = "price";
+        /**
+         * Barcode Product
+         */
+        public static final String COLUMN_BARCODE = "barcode";
+        /**
+         * last Updated product
+         */
+        public static final String COLUMN_UPDATED = "updated";
     }
 }
