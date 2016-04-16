@@ -90,7 +90,9 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
             FeedContract.Product.COLUMN_PRODUCT_ID,
             FeedContract.Product.COLUMN_DESCRIPTION,
             FeedContract.Product.COLUMN_UNIT,
-            FeedContract.Product.COLUMN_PRICE};
+            FeedContract.Product.COLUMN_PRICE,
+            FeedContract.Product.COLUMN_BARCODE,
+            FeedContract.Product.COLUMN_UPDATED};
 
     // Constants representing column positions from PROJECTION.
     public static final int COLUMN_ID = 0;
@@ -98,6 +100,8 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int COLUMN_DESCRIPTION = 2;
     public static final int COLUMN_UNIT = 3;
     public static final int COLUMN_PRICE = 4;
+    public static final int COLUMN_BARCODE = 5;
+    public static final int COLUMN_UPDATED = 6;
 
     /**
      * Constructor. Obtains handle to content resolver for later use.
@@ -230,6 +234,8 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         String description;
         String unit;
         long price;
+        String barcode;
+        String updated;
         while (c.moveToNext()) {
             syncResult.stats.numEntries++;
             id = c.getInt(COLUMN_ID);
@@ -237,6 +243,8 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
             description = c.getString(COLUMN_DESCRIPTION);
             unit = c.getString(COLUMN_UNIT);
             price = c.getLong(COLUMN_PRICE);
+            barcode = c.getString(COLUMN_BARCODE);
+            updated = c.getString(COLUMN_UPDATED);
             FeedParser.Product match = ProductMap.get(ProductId);
             if (match != null) {
                 // Product exists. Remove from Product map to prevent insert later.
@@ -244,15 +252,15 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
                 // Check to see if the Product needs to be updated
                 Uri existingUri = FeedContract.Product.CONTENT_URI.buildUpon()
                         .appendPath(Integer.toString(id)).build();
-                if ((match.description != null && !match.description.equals(description)) ||
-                        (match.unit != null && !match.unit.equals(unit)) ||
-                        (match.price != price)) {
+                if ((match.updated != null && !match.updated.equals(updated))) {
                     // Update existing record
                     Log.i(TAG, "Scheduling update: " + existingUri);
                     batch.add(ContentProviderOperation.newUpdate(existingUri)
                             .withValue(FeedContract.Product.COLUMN_DESCRIPTION, match.description)
                             .withValue(FeedContract.Product.COLUMN_UNIT, match.unit)
                             .withValue(FeedContract.Product.COLUMN_PRICE, match.price)
+                            .withValue(FeedContract.Product.COLUMN_BARCODE, match.barcode)
+                            .withValue(FeedContract.Product.COLUMN_UPDATED, match.updated)
                             .build());
                     syncResult.stats.numUpdates++;
                 } else {
