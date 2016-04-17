@@ -29,6 +29,8 @@ import java.util.zip.GZIPInputStream;
 public class FeedParser {
 
     public List<Product> parse(InputStream in) throws IOException {
+        GZIPInputStream zis = new GZIPInputStream(new BufferedInputStream(in));
+        JsonReader reader = new JsonReader(new InputStreamReader(zis, "UTF-8"));
         try {
             return readProductsArray(reader);
         } finally {
