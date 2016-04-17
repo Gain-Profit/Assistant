@@ -18,20 +18,22 @@ package com.dutaswalayan.assistant.provider;
 
 import android.util.JsonReader;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 public class FeedParser {
 
     public List<Product> parse(InputStream in) throws IOException {
-        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
         try {
             return readProductsArray(reader);
         } finally {
             reader.close();
+            zis.close();
         }
     }
 
