@@ -1,11 +1,13 @@
 package com.dutaswalayan.assistant;
 
+import android.accounts.Account;
 import android.app.LoaderManager;
 import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.content.SyncStatusObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,6 +27,7 @@ import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 
 import com.dutaswalayan.assistant.provider.FeedContract;
+import com.dutaswalayan.assistant.sync.GenericAccountService;
 import com.dutaswalayan.assistant.sync.SyncUtils;
 
 public class MainActivity extends AppCompatActivity
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity
 
     private ListView mListView;
     private SearchView searchView;
-
+    private MenuItem refreshItem;
     /**
      * Cursor adapter for controlling ListView results.
      */
@@ -99,8 +102,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SyncUtils.TriggerRefresh();
-                Snackbar.make(view, "Refresh Data...", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Add Transaction, Not Implemented Yet", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -143,6 +145,27 @@ public class MainActivity extends AppCompatActivity
         getLoaderManager().initLoader(0, null, this);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSyncStatusObserver.onStatusChanged(0);
+
+        // Watch for sync state changes
+        final int mask = ContentResolver.SYNC_OBSERVER_TYPE_PENDING |
+                ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE;
+        mSyncObserverHandle = ContentResolver.addStatusChangeListener(mask, mSyncStatusObserver);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mSyncObserverHandle != null) {
+            ContentResolver.removeStatusChangeListener(mSyncObserverHandle);
+            mSyncObserverHandle = null;
+        }
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -157,6 +180,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        refreshItem = menu.findItem(R.id.menu_refresh);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -186,6 +210,10 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if (id == R.id.menu_refresh) {
+            SyncUtils.TriggerRefresh();
         }
 
         return super.onOptionsItemSelected(item);
@@ -237,4 +265,62 @@ public class MainActivity extends AppCompatActivity
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.changeCursor(null);
     }
+
+
+    /**
+     * Set the state of the Refresh button. If a sync is active, turn on the ProgressBar widget.
+     * Otherwise, turn it off.
+     *
+     * @param refreshing True if an active sync is occuring, false otherwise
+     */
+    public void setRefreshActionButtonState(boolean refreshing) {
+        if (refreshItem != null) {
+            if (refreshing) {
+                refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
+            } else {
+                refreshItem.setActionView(null);
+            }
+        }
+    }
+
+    /**
+     * Crfate a new anonymous SyncStatusObserver. It's attached to the app's ContentResolver in
+     * onResume(), and removed in onPause(). If status changes, it sets the state of the Refresh
+     * button. If a sync is active or pending, the Refresh button is replaced by an indeterminate
+     * ProgressBar; otherwise, the button itself is displayed.
+     */
+    private SyncStatusObserver mSyncStatusObserver = new SyncStatusObserver() {
+        /** Callback invoked with the sync adapter status changes. */
+        @Override
+        public void onStatusChanged(int which) {
+            MainActivity.this.runOnUiThread(new Runnable() {
+                /**
+                 * The SyncAdapter runs on a background thread. To update the UI, onStatusChanged()
+                 * runs on the UI thread.
+                 */
+                @Override
+                public void run() {
+                    // Create a handle to the account that was created by
+                    // SyncService.CreateSyncAccount(). This will be used to query the system to
+                    // see how the sync status has changed.
+                    Account account = GenericAccountService.GetAccount(SyncUtils.ACCOUNT_TYPE);
+                    if (account == null) {
+                        // GetAccount() returned an invalid value. This shouldn't happen, but
+                        // we'll set the status to "not refreshing".
+                        setRefreshActionButtonState(false);
+                        return;
+                    }
+
+                    // Test the ContentResolver to see if the sync adapter is active or pending.
+                    // Set the state of the refresh button accordingly.
+                    boolean syncActive = ContentResolver.isSyncActive(
+                            account, FeedContract.CONTENT_AUTHORITY);
+                    boolean syncPending = ContentResolver.isSyncPending(
+                            account, FeedContract.CONTENT_AUTHORITY);
+                    setRefreshActionButtonState(syncActive || syncPending);
+                }
+            });
+        }
+    };
+
 }
