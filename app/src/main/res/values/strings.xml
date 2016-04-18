@@ -9,4 +9,11 @@
     <string name="title_activity_transaction">Transaction</string>
     <string name="loading">Waiting for sync...</string>
     <string name="description_refresh">Refresh</string>
+
+    <string name="pid">PID</string>
+    <string name="barcode">Barcode</string>
+    <string name="description">Description</string>
+    <string name="unit">Unit</string>
+    <string name="price">Price</string>
+    <string name="updated">Last Update</string>
 </resources>
