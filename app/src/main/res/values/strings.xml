@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Assistant</string>
-    <string name="app_products">Products</string>
+    <string name="app_products_detail">Detail Products</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

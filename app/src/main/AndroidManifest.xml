@@ -74,7 +74,9 @@
                 android:resource="@xml/authenticator" />
         </service>
 
-        <activity android:name=".DetailProduct">
+        <activity
+            android:name=".DetailProduct"
+            android:label="@string/app_products_detail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
