@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.SyncStatusObserver;
 import android.os.Bundle;
@@ -23,8 +24,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.database.Cursor;
+import android.widget.AdapterView;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.dutaswalayan.assistant.provider.FeedContract;
 import com.dutaswalayan.assistant.sync.GenericAccountService;
@@ -57,21 +60,29 @@ public class MainActivity extends AppCompatActivity
      */
     private static final String[] PROJECTION = new String[]{
             FeedContract.Product._ID,
+            FeedContract.Product.COLUMN_PRODUCT_ID,
             FeedContract.Product.COLUMN_DESCRIPTION,
             FeedContract.Product.COLUMN_UNIT,
-            FeedContract.Product.COLUMN_PRICE
-    };
+            FeedContract.Product.COLUMN_PRICE,
+            FeedContract.Product.COLUMN_BARCODE,
+            FeedContract.Product.COLUMN_UPDATED};
 
     // Column indexes. The index of a column in the Cursor is the same as its relative position in
     // the projection.
     /** Column index for _ID */
     private static final int COLUMN_ID = 0;
-    /** Column index for title */
-    private static final int COLUMN_DESCRIPTION = 1;
-    /** Column index for link */
-    private static final int COLUMN_UNIT = 2;
-    /** Column index for published */
-    private static final int COLUMN_PRICE = 3;
+    /** Column index for PID */
+    private static final int COLUMN_PRODUCT_ID = 1;
+    /** Column index for description */
+    private static final int COLUMN_DESCRIPTION = 2;
+    /** Column index for unit */
+    private static final int COLUMN_UNIT = 3;
+    /** Column index for price */
+    private static final int COLUMN_PRICE = 4;
+    /** Column index for barcode */
+    private static final int COLUMN_BARCODE = 5;
+    /** Column index for updated */
+    private static final int COLUMN_UPDATED = 6;
 
     /**
      * List of Cursor columns to read from when preparing an adapter to populate the ListView.
@@ -128,8 +139,42 @@ public class MainActivity extends AppCompatActivity
                 0                    // No flags
         );
 
+        mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Cursor cursor, int i) {
+                if (i == COLUMN_PRICE) {
+                    ((TextView) view).setText(String.format("%,d",cursor.getLong(i)));
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
         mListView.setAdapter(mAdapter);
         mListView.setTextFilterEnabled(true);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor c = (Cursor) mAdapter.getItem(position);
+
+                String pid = c.getString(COLUMN_PRODUCT_ID);
+                String description = c.getString(COLUMN_DESCRIPTION);
+                String barcode = c.getString(COLUMN_BARCODE);
+                String unit = c.getString(COLUMN_UNIT);
+                long price = c.getLong(COLUMN_PRICE);
+                String updated = c.getString(COLUMN_UPDATED);
+
+                Intent i = new Intent(MainActivity.this, DetailProduct.class);
+                i.putExtra("Products.PID",pid);
+                i.putExtra("Products.DESCRIPTION",description);
+                i.putExtra("Products.BARCODE",barcode);
+                i.putExtra("Products.UNIT",unit);
+                i.putExtra("Products.PRICE",price);
+                i.putExtra("Products.UPDATED",updated);
+                startActivity(i);
+            }
+        });
 
         mAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
