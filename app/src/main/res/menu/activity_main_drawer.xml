@@ -4,11 +4,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_products"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_menu_price"
             android:title="Daftar Produk" />
         <item
             android:id="@+id/nav_transaction"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_shopping_cart"
             android:title="Transaksi" />
         <item
             android:id="@+id/nav_manage"
