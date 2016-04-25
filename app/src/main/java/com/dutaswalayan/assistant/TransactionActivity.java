@@ -9,6 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -35,8 +37,8 @@ public class TransactionActivity extends AppCompatActivity {
     };
 
     private static final int[] TO_FIELDS = new int[]{
-            android.R.id.text1,
-            android.R.id.text2};
+            R.id.trDescription,
+            R.id.trPrice};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class TransactionActivity extends AppCompatActivity {
                         values);
                 mAdapter.changeCursor(getAllData());
 
-                Snackbar.make(view, "add data ID :"+ newRowId +"to database", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "add data ID :" + newRowId + " to database", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -80,7 +82,7 @@ public class TransactionActivity extends AppCompatActivity {
         super.onResume();
         mAdapter = new SimpleCursorAdapter(
                 this,       // Current context
-                android.R.layout.simple_list_item_activated_2,  // Layout for individual rows
+                R.layout.list_transaction,  // Layout for individual rows
                 getAllData(),                // Cursor
                 FROM_COLUMNS,        // Cursor columns to use
                 TO_FIELDS,           // Layout fields to use
@@ -100,4 +102,34 @@ public class TransactionActivity extends AppCompatActivity {
                 Transaction.COLUMN_DESCRIPTION + " asc");
         return c;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_transaction, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_clear_transaction) {
+            SQLiteDatabase db = mDbTransaction.getWritableDatabase();
+            long deleted = db.delete(
+                    Transaction.TABLE_NAME,
+                    null,
+                    null);
+            mAdapter.changeCursor(getAllData());
+
+            Snackbar.make(getWindow().getDecorView(),
+                    deleted + " Record Has Been Deleted", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
