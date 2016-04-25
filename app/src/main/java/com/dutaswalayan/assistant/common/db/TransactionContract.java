@@ -9,7 +9,7 @@ public class TransactionContract {
     private TransactionContract(){}
 
     public static class Transaction implements BaseColumns {
-        public static final String TABLE_NAME = "transaction";
+        public static final String TABLE_NAME = "shopping";
         public static final String COLUMN_PRODUCT_ID = "product_id";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_UNIT = "unit";
@@ -22,7 +22,7 @@ public class TransactionContract {
         /** Schema version. */
         public static final int DATABASE_VERSION = 1;
         /** Filename for SQLite file. */
-        public static final String DATABASE_NAME = "transaction.db";
+        public static final String DATABASE_NAME = "Belanja.db";
 
         private static final String TYPE_TEXT = " TEXT";
         private static final String TYPE_INTEGER = " INTEGER";
