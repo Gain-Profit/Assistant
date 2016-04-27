@@ -34,7 +34,7 @@
         android:layout_alignLeft="@+id/product_name"
         android:layout_below="@+id/product_name"
         android:layout_marginTop="15dp"
-        android:text="UNIT  :"
+        android:text="UNIT   :"
         android:textSize="14dp"
         android:textColor="#757575"/>
 
@@ -56,7 +56,7 @@
         android:layout_alignLeft="@+id/product_name"
         android:layout_below="@+id/product_unit"
         android:layout_marginTop="5dp"
-        android:text="PRICE:  "
+        android:text="PRICE :  "
         android:textSize="14dp"
         android:textColor="#757575"/>
 
@@ -68,7 +68,7 @@
         android:layout_below="@+id/product_unit_value"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="5dp"
-        android:text="Rp.8.000.000"
+        android:text="Rp. 8.000.000"
         android:textSize="14dp"
         android:textColor="#757575"/>
 
@@ -78,9 +78,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/product_total_value"
         android:layout_below="@+id/product_name"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="90dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/product_price_value"
+        android:layout_toRightOf="@+id/product_price"
         android:background="#E6E6E6" />
 
     <TextView
