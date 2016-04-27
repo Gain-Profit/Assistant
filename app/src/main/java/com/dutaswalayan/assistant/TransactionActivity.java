@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.dutaswalayan.assistant.common.db.TransactionContract;
 import com.dutaswalayan.assistant.common.db.TransactionContract.Transaction;
@@ -31,14 +32,29 @@ public class TransactionActivity extends AppCompatActivity {
             Transaction.COLUMN_BARCODE,
             Transaction.COLUMN_QTY};
 
+    private static final int COLUMN_ID = 0;
+    private static final int COLUMN_PRODUCT_ID = 1;
+    private static final int COLUMN_DESCRIPTION = 2;
+    private static final int COLUMN_UNIT = 3;
+    private static final int COLUMN_PRICE = 4;
+    private static final int COLUMN_BARCODE = 5;
+    private static final int COLUMN_QTY = 6;
+
     private static final String[] FROM_COLUMNS = new String[]{
             Transaction.COLUMN_DESCRIPTION,
+            Transaction.COLUMN_UNIT,
+            Transaction.COLUMN_PRICE,
+            Transaction.COLUMN_QTY,
             Transaction.COLUMN_PRICE
     };
 
     private static final int[] TO_FIELDS = new int[]{
-            R.id.trDescription,
-            R.id.trPrice};
+            R.id.product_name,
+            R.id.product_unit_value,
+            R.id.product_price_value,
+            R.id.product_qty,
+            R.id.product_total_value
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +98,15 @@ public class TransactionActivity extends AppCompatActivity {
         super.onResume();
         mAdapter = new SimpleCursorAdapter(
                 this,       // Current context
-                R.layout.list_transaction,  // Layout for individual rows
+                R.layout.custom_list_transaction,  // Layout for individual rows
                 getAllData(),                // Cursor
                 FROM_COLUMNS,        // Cursor columns to use
                 TO_FIELDS,           // Layout fields to use
                 0                    // No flags
         );
+
+        mAdapter.setViewBinder(new TransactionBinder());
+
         list.setAdapter(mAdapter);
     }
 
@@ -130,6 +149,19 @@ public class TransactionActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class TransactionBinder implements SimpleCursorAdapter.ViewBinder{
+
+        @Override
+        public boolean setViewValue(View view, Cursor cursor, int i) {
+                if (i == COLUMN_PRICE) {
+                    ((TextView) view).setText(String.format("%,d",cursor.getLong(i)));
+                    return true;
+                } else {
+                    return false;
+                }
+        }
     }
 
 }
