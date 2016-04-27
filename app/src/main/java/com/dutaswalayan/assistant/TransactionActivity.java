@@ -9,9 +9,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -76,14 +79,14 @@ public class TransactionActivity extends AppCompatActivity {
                 values.put(Transaction.COLUMN_PRICE, 5000);
                 values.put(Transaction.COLUMN_QTY, 5);
 
-                long newRowId;
-                newRowId = db.insert(
+                long updateRowId;
+                updateRowId = db.insert(
                         Transaction.TABLE_NAME,
                         null,
                         values);
                 mAdapter.changeCursor(getAllData());
 
-                Snackbar.make(view, "add data ID :" + newRowId + " to database", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "add data ID :" + updateRowId + " to database", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -162,10 +165,53 @@ public class TransactionActivity extends AppCompatActivity {
                 Long total = cursor.getLong(COLUMN_PRICE) * cursor.getLong(COLUMN_QTY);
                 ((TextView) view).setText(String.format("%,d",total));
                 return true;
+            } if (view.getId() == R.id.product_qty){
+                final String id = cursor.getString(COLUMN_ID);
+                ((EditText) view).addTextChangedListener(new QtyTextWatcher(view, id));
+                return false;
             } else {
                 return false;
             }
         }
     }
 
+    private class QtyTextWatcher implements TextWatcher {
+
+        private View view;
+        private String id;
+        private QtyTextWatcher(View view,String id) {
+            this.view = view;
+            this.id = id;
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            //do nothing
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //do nothing
+        }
+
+        public void afterTextChanged(Editable s) {
+            String qtyString = s.toString().trim();
+            int quantity = qtyString.equals("") ? 0 : Integer.valueOf(qtyString);
+
+            SQLiteDatabase db = mDbTransaction.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(Transaction.COLUMN_QTY, quantity);
+
+            long updateRowId;
+            updateRowId = db.update(
+                    Transaction.TABLE_NAME,
+                    values,
+                    Transaction._ID + " = ?",
+                    new String[]{this.id});
+//            mAdapter.notifyDataSetChanged();
+//            mAdapter.changeCursor(getAllData());
+
+            Snackbar.make(getWindow().getDecorView(), "update Qty for ID :" + this.id + " success", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            return;
+        }
+    }
 }
