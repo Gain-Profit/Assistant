@@ -74,7 +74,7 @@ public class TransactionActivity extends AppCompatActivity {
                 values.put(Transaction.COLUMN_BARCODE, "123456789");
                 values.put(Transaction.COLUMN_UNIT, "PIECES");
                 values.put(Transaction.COLUMN_PRICE, 5000);
-                values.put(Transaction.COLUMN_QTY, 1);
+                values.put(Transaction.COLUMN_QTY, 5);
 
                 long newRowId;
                 newRowId = db.insert(
@@ -155,12 +155,16 @@ public class TransactionActivity extends AppCompatActivity {
 
         @Override
         public boolean setViewValue(View view, Cursor cursor, int i) {
-                if (i == COLUMN_PRICE) {
-                    ((TextView) view).setText(String.format("%,d",cursor.getLong(i)));
-                    return true;
-                } else {
-                    return false;
-                }
+            if (view.getId() == R.id.product_price_value){
+                ((TextView) view).setText(String.format("%,d",cursor.getLong(COLUMN_PRICE)));
+                return true;
+            } if (view.getId() == R.id.product_total_value){
+                Long total = cursor.getLong(COLUMN_PRICE) * cursor.getLong(COLUMN_QTY);
+                ((TextView) view).setText(String.format("%,d",total));
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
