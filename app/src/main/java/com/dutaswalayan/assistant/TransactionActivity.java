@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.dutaswalayan.assistant.common.db.TransactionContract;
 import com.dutaswalayan.assistant.common.db.TransactionContract.Transaction;
 
 public class TransactionActivity extends AppCompatActivity {
+    private static final String TAG = "TransactionActivity";
     private SimpleCursorAdapter mAdapter;
     TransactionContract.TransactionDatabase mDbTransaction;
     ListView list;
