@@ -79,14 +79,14 @@ public class TransactionActivity extends AppCompatActivity {
                 values.put(Transaction.COLUMN_PRICE, 5000);
                 values.put(Transaction.COLUMN_QTY, 5);
 
-                long updateRowId;
-                updateRowId = db.insert(
+                long insertRowId;
+                insertRowId = db.insert(
                         Transaction.TABLE_NAME,
                         null,
                         values);
                 mAdapter.changeCursor(getAllData());
 
-                Snackbar.make(view, "add data ID :" + updateRowId + " to database", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "add data ID :" + insertRowId + " to database", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
