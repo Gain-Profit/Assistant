@@ -159,11 +159,11 @@ public class TransactionActivity extends AppCompatActivity {
         @Override
         public boolean setViewValue(View view, Cursor cursor, int i) {
             if (view.getId() == R.id.product_price_value){
-                ((TextView) view).setText(String.format("%,d",cursor.getLong(COLUMN_PRICE)));
+                ((TextView) view).setText("Rp. " + String.format("%,d",cursor.getLong(COLUMN_PRICE)));
                 return true;
             } if (view.getId() == R.id.product_total_value){
                 Long total = cursor.getLong(COLUMN_PRICE) * cursor.getLong(COLUMN_QTY);
-                ((TextView) view).setText(String.format("%,d",total));
+                ((TextView) view).setText("Rp. " + String.format("%,d",total));
                 return true;
             } if (view.getId() == R.id.product_qty){
                 final String id = cursor.getString(COLUMN_ID);
