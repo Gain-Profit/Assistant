@@ -9,12 +9,13 @@
     tools:showIn="@layout/activity_transaction">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Shopping Cart Total : "
         android:id="@+id/cartTotalLabel"
         android:layout_alignParentTop="true"
+        android:gravity="end"
         android:layout_toLeftOf="@+id/cartTotal"
         android:layout_toStartOf="@+id/cartTotal" />
 
