@@ -21,6 +21,7 @@
         android:id="@+id/product_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
@@ -43,12 +44,11 @@
         android:id="@+id/product_unit_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_alignTop="@+id/product_unit"
         android:layout_marginLeft="6dp"
         android:layout_toRightOf="@+id/product_unit"
-        android:text="PIECES"
-        android:textSize="14dp"
-        android:textColor="#757575"/>
+        android:text="PIECES"/>
 
     <TextView
         android:id="@+id/product_price"
@@ -82,7 +82,7 @@
         android:layout_marginLeft="90dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/product_price"
-        android:background="#E6E6E6" />
+        android:background="#1A237E" />
 
     <TextView
         android:id="@+id/qty_text"
@@ -117,7 +117,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/product_qty"
-        android:background="#E6E6E6" />
+        android:background="#1A237E" />
 
     <TextView
         android:id="@+id/product_total"
@@ -140,7 +140,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/view2"
-        android:background="#E6E6E6" />
+        android:background="#1A237E" />
 
     <TextView
         android:id="@+id/product_total_value"
