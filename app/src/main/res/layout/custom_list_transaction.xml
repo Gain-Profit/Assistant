@@ -11,10 +11,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="#FFFFFF"
+        android:background="#a0d8b0"
         android:scaleX="1"
         android:scaleY="1"
-        android:src="@android:drawable/ic_delete" />
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
     <TextView
         android:id="@+id/product_name"
