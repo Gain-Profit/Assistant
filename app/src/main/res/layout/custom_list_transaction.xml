@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <ImageButton
         android:id="@+id/product_delete"
@@ -11,10 +12,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="#a0d8b0"
+        android:background="#FFFFFF"
         android:scaleX="1"
         android:scaleY="1"
-        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+        android:src="@android:drawable/ic_delete" />
 
     <TextView
         android:id="@+id/product_name"
