@@ -27,6 +27,7 @@ public class TransactionActivity extends AppCompatActivity {
     private SimpleCursorAdapter mAdapter;
     TransactionContract.TransactionDatabase mDbTransaction;
     ListView list;
+    private TextView cartTotal;
 
     private static final String[] PROJECTION = new String[]{
             Transaction._ID,
@@ -96,6 +97,8 @@ public class TransactionActivity extends AppCompatActivity {
 
         mDbTransaction = new TransactionContract.TransactionDatabase(this);
         list = (ListView) findViewById(R.id.listTransaction);
+
+        cartTotal = (TextView) findViewById(R.id.cartTotal);
     }
 
     @Override
@@ -117,6 +120,12 @@ public class TransactionActivity extends AppCompatActivity {
 
     public Cursor getAllData() {
         SQLiteDatabase db = mDbTransaction.getReadableDatabase();
+        Cursor cTotal = db.rawQuery("SELECT SUM(" + Transaction.COLUMN_QTY +" * " +
+                Transaction.COLUMN_PRICE + ") FROM " + Transaction.TABLE_NAME + ";",null);
+        cTotal.moveToFirst();
+
+        cartTotal.setText("Rp. " + String.format("%,d",cTotal.getLong(0)));
+
         Cursor c = db.query(Transaction.TABLE_NAME,
                 this.PROJECTION,
                 null,
@@ -224,7 +233,9 @@ public class TransactionActivity extends AppCompatActivity {
                 values,
                 Transaction._ID + " = ?",
                 new String[]{id});
-         mAdapter.changeCursor(getAllData());
+
+        mAdapter.changeCursor(getAllData());
+
         Log.i(TAG,"change qty for id: "+ id +" to: "+ value);
     }
 }
