@@ -230,44 +230,4 @@ public class TransactionActivity extends AppCompatActivity {
          mAdapter.changeCursor(getAllData());
         Log.i(TAG,"change qty for id: "+ id +" to: "+ value);
     }
-
-    private class QtyTextWatcher implements TextWatcher {
-
-        private View view;
-        private String id;
-        private QtyTextWatcher(View view,String id) {
-            this.view = view;
-            this.id = id;
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            //do nothing
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            //do nothing
-        }
-
-        public void afterTextChanged(Editable s) {
-            String qtyString = s.toString().trim();
-            int quantity = qtyString.equals("") ? 0 : Integer.valueOf(qtyString);
-
-            SQLiteDatabase db = mDbTransaction.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put(Transaction.COLUMN_QTY, quantity);
-
-            long updateRowId;
-            updateRowId = db.update(
-                    Transaction.TABLE_NAME,
-                    values,
-                    Transaction._ID + " = ?",
-                    new String[]{this.id});
-//            mAdapter.notifyDataSetChanged();
-//            mAdapter.changeCursor(getAllData());
-
-            Snackbar.make(getWindow().getDecorView(), "update Qty for ID :" + this.id + " success", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            return;
-        }
-    }
 }
