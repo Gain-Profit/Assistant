@@ -208,7 +208,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         final FeedParser feedParser = new FeedParser();
         final ContentResolver contentResolver = getContext().getContentResolver();
 
-        Log.i(TAG, "Parsing stream as Atom feed");
+        Log.i(TAG, "Parsing stream as Json data");
         final List<FeedParser.Product> entries = feedParser.parse(stream);
         Log.i(TAG, "Parsing complete. Found " + entries.size() + " entries");
 
