@@ -189,7 +189,6 @@ public class TransactionActivity extends AppCompatActivity {
                 return true;
             } else if (view.getId() == R.id.product_qty){
                 final int value = cursor.getInt(COLUMN_QTY);
-//                ((EditText) view).addTextChangedListener(new QtyTextWatcher(view, id));
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
