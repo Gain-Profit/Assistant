@@ -1,5 +1,6 @@
 package com.dutaswalayan.assistant;
 
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,8 +16,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.dutaswalayan.assistant.common.db.TransactionContract;
@@ -169,12 +172,63 @@ public class TransactionActivity extends AppCompatActivity {
                 return true;
             } if (view.getId() == R.id.product_qty){
                 final String id = cursor.getString(COLUMN_ID);
-                ((EditText) view).addTextChangedListener(new QtyTextWatcher(view, id));
+                final int value = cursor.getInt(COLUMN_QTY);
+//                ((EditText) view).addTextChangedListener(new QtyTextWatcher(view, id));
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showNumberPicker(v, id, value);
+                    }
+                });
                 return false;
             } else {
                 return false;
             }
         }
+    }
+
+    private void showNumberPicker(final View btnView, final String id, int oldValue) {
+        final Dialog d = new Dialog(TransactionActivity.this);
+        d.setTitle("Change Qty");
+        d.setContentView(R.layout.number_picker);
+        Button b1 = (Button) d.findViewById(R.id.btnSet);
+        Button b2 = (Button) d.findViewById(R.id.btnCancel);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker);
+        np.setMaxValue(100);
+        np.setMinValue(1);
+        np.setValue(oldValue);
+        np.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                ((Button) btnView).setText(String.valueOf(np.getValue()));
+                changeQty(id,np.getValue());
+                Log.i(TAG,"value picker is: " + np.getValue());
+                d.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
+    }
+
+    private void changeQty(String id, int value) {
+        SQLiteDatabase db = mDbTransaction.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Transaction.COLUMN_QTY, value);
+
+        db.update(Transaction.TABLE_NAME,
+                values,
+                Transaction._ID + " = ?",
+                new String[]{id});
+         mAdapter.changeCursor(getAllData());
+        Log.i(TAG,"change qty for id: "+ id +" to: "+ value);
     }
 
     private class QtyTextWatcher implements TextWatcher {
