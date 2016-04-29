@@ -15,13 +15,14 @@
         android:text="Shopping Cart Total : "
         android:id="@+id/cartTotalLabel"
         android:layout_alignParentTop="true"
-        android:gravity="end"
+        android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@+id/cartTotal"
         android:layout_toStartOf="@+id/cartTotal" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Rp. 5.000.000"
         android:id="@+id/cartTotal"
