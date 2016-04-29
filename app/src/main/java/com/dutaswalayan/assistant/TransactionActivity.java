@@ -47,6 +47,7 @@ public class TransactionActivity extends AppCompatActivity {
     private static final int COLUMN_QTY = 6;
 
     private static final String[] FROM_COLUMNS = new String[]{
+            Transaction._ID,
             Transaction.COLUMN_DESCRIPTION,
             Transaction.COLUMN_UNIT,
             Transaction.COLUMN_PRICE,
@@ -55,6 +56,7 @@ public class TransactionActivity extends AppCompatActivity {
     };
 
     private static final int[] TO_FIELDS = new int[]{
+            R.id.product_delete,
             R.id.product_name,
             R.id.product_unit_value,
             R.id.product_price_value,
@@ -169,15 +171,23 @@ public class TransactionActivity extends AppCompatActivity {
 
         @Override
         public boolean setViewValue(View view, Cursor cursor, int i) {
-            if (view.getId() == R.id.product_price_value){
+            final String id = cursor.getString(COLUMN_ID);
+            if (view.getId() == R.id.product_delete){
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteProduct(id);
+                    }
+                });
+                return true;
+            } else if (view.getId() == R.id.product_price_value){
                 ((TextView) view).setText("Rp. " + String.format("%,d",cursor.getLong(COLUMN_PRICE)));
                 return true;
-            } if (view.getId() == R.id.product_total_value){
+            } else if (view.getId() == R.id.product_total_value){
                 Long total = cursor.getLong(COLUMN_PRICE) * cursor.getLong(COLUMN_QTY);
                 ((TextView) view).setText("Rp. " + String.format("%,d",total));
                 return true;
-            } if (view.getId() == R.id.product_qty){
-                final String id = cursor.getString(COLUMN_ID);
+            } else if (view.getId() == R.id.product_qty){
                 final int value = cursor.getInt(COLUMN_QTY);
 //                ((EditText) view).addTextChangedListener(new QtyTextWatcher(view, id));
                 view.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +201,18 @@ public class TransactionActivity extends AppCompatActivity {
                 return false;
             }
         }
+    }
+
+    private void deleteProduct(String id) {
+        SQLiteDatabase db = mDbTransaction.getWritableDatabase();
+
+        db.delete(Transaction.TABLE_NAME,
+                Transaction._ID + " = ?",
+                new String[]{id});
+
+        mAdapter.changeCursor(getAllData());
+
+        Log.i(TAG,"delete data for id: "+ id);
     }
 
     private void showNumberPicker(final View btnView, final String id, int oldValue) {
