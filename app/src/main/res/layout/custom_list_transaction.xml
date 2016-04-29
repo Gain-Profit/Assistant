@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <ImageButton
-        android:id="@+id/delete"
+        android:id="@+id/product_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -23,7 +23,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:layout_toLeftOf="@+id/delete"
+        android:layout_toLeftOf="@+id/product_delete"
         android:text="Kelloggs Corn Flakes Honey and Almond 400gm"
         android:textSize="20dp" />
 
