@@ -130,13 +130,15 @@ public class FeedProvider extends ContentProvider {
                 String[] columns = new String[] {
                         FeedContract.Product._ID,
                         FeedContract.Product.COLUMN_DESCRIPTION,
-                        FeedContract.Product.COLUMN_PRICE};
+                        FeedContract.Product.COLUMN_PRICE,
+                        "rowid"};
                 // Return all known entries.
                 builder.table(FeedContract.Product.TABLE_NAME)
                         .where(FeedContract.Product.COLUMN_DESCRIPTION + " LIKE ?", "%"+ selectionArgs[0] + "%")
                         .map(FeedContract.Product._ID,FeedContract.Product._ID)
                         .map(FeedContract.Product.COLUMN_DESCRIPTION,SearchManager.SUGGEST_COLUMN_TEXT_1)
-                        .map(FeedContract.Product.COLUMN_PRICE,SearchManager.SUGGEST_COLUMN_TEXT_2);
+                        .map(FeedContract.Product.COLUMN_PRICE,SearchManager.SUGGEST_COLUMN_TEXT_2)
+                        .map("rowid",SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID);
 
                 c = builder.query(db, columns, sortOrder);
                 ctx = getContext();
@@ -170,6 +172,7 @@ public class FeedProvider extends ContentProvider {
      */
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+        Log.i(TAG,"Uri: "+ uri);
         final SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
         assert db != null;
         final int match = sUriMatcher.match(uri);
@@ -196,6 +199,7 @@ public class FeedProvider extends ContentProvider {
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
+        Log.i(TAG,"Uri: "+ uri);
         SelectionBuilder builder = new SelectionBuilder();
         final SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
@@ -228,6 +232,7 @@ public class FeedProvider extends ContentProvider {
      */
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        Log.i(TAG,"Uri: "+ uri);
         SelectionBuilder builder = new SelectionBuilder();
         final SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
