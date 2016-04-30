@@ -127,7 +127,7 @@ public class TransactionActivity extends AppCompatActivity {
                 null,
                 null,
                 null,
-                Transaction.COLUMN_DESCRIPTION + " asc");
+                Transaction._ID + " asc");
         return c;
     }
 
