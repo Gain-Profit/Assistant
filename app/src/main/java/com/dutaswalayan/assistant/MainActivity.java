@@ -70,19 +70,19 @@ public class MainActivity extends AppCompatActivity
     // Column indexes. The index of a column in the Cursor is the same as its relative position in
     // the projection.
     /** Column index for _ID */
-    private static final int COLUMN_ID = 0;
+    public static final int COLUMN_ID = 0;
     /** Column index for PID */
-    private static final int COLUMN_PRODUCT_ID = 1;
+    public static final int COLUMN_PRODUCT_ID = 1;
     /** Column index for description */
-    private static final int COLUMN_DESCRIPTION = 2;
+    public static final int COLUMN_DESCRIPTION = 2;
     /** Column index for unit */
-    private static final int COLUMN_UNIT = 3;
+    public static final int COLUMN_UNIT = 3;
     /** Column index for price */
-    private static final int COLUMN_PRICE = 4;
+    public static final int COLUMN_PRICE = 4;
     /** Column index for barcode */
-    private static final int COLUMN_BARCODE = 5;
+    public static final int COLUMN_BARCODE = 5;
     /** Column index for updated */
-    private static final int COLUMN_UPDATED = 6;
+    public static final int COLUMN_UPDATED = 6;
 
     /**
      * List of Cursor columns to read from when preparing an adapter to populate the ListView.
