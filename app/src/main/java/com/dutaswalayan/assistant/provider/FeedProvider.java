@@ -16,6 +16,7 @@
 
 package com.dutaswalayan.assistant.provider;
 
+import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.dutaswalayan.assistant.common.db.SelectionBuilder;
@@ -53,6 +55,8 @@ public class FeedProvider extends ContentProvider {
      */
     public static final int ROUTE_PRODUCTS_ID = 2;
 
+    public static final int SEARCH_SUGGEST = 3;
+    private static final int REFRESH_SHORTCUT = 4;
     /**
      * UriMatcher, used to decode incoming URIs.
      */
@@ -60,6 +64,19 @@ public class FeedProvider extends ContentProvider {
     static {
         sUriMatcher.addURI(AUTHORITY, "products", ROUTE_PRODUCTS);
         sUriMatcher.addURI(AUTHORITY, "products/*", ROUTE_PRODUCTS_ID);
+
+        sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_QUERY,SEARCH_SUGGEST);
+        sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_QUERY + "/*", SEARCH_SUGGEST);
+
+        /* The following are unused in this implementation, but if we include
+         * {@link SearchManager#SUGGEST_COLUMN_SHORTCUT_ID} as a column in our suggestions table, we
+         * could expect to receive refresh queries when a shortcutted suggestion is displayed in
+         * Quick Search Box, in which case, the following Uris would be provided and we
+         * would return a cursor with a single item representing the refreshed suggestion data.
+         */
+        sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_SHORTCUT, REFRESH_SHORTCUT);
+        sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_SHORTCUT + "/*", REFRESH_SHORTCUT);
+
     }
 
     @Override
@@ -79,8 +96,12 @@ public class FeedProvider extends ContentProvider {
                 return FeedContract.Product.CONTENT_TYPE;
             case ROUTE_PRODUCTS_ID:
                 return FeedContract.Product.CONTENT_ITEM_TYPE;
+            case SEARCH_SUGGEST:
+                return SearchManager.SUGGEST_MIME_TYPE;
+            case REFRESH_SHORTCUT:
+                return SearchManager.SHORTCUT_MIME_TYPE;
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException("uri tidak diketahui: " + uri);
         }
     }
 
@@ -100,6 +121,28 @@ public class FeedProvider extends ContentProvider {
         SelectionBuilder builder = new SelectionBuilder();
         int uriMatch = sUriMatcher.match(uri);
         switch (uriMatch) {
+            case SEARCH_SUGGEST:
+                if (selectionArgs == null) {
+                    throw new IllegalArgumentException(
+                            "selectionArgs must be provided for the Uri: " + uri);
+                }
+                Log.i(TAG,"route suggest...");
+                String[] columns = new String[] {
+                        FeedContract.Product._ID,
+                        FeedContract.Product.COLUMN_DESCRIPTION,
+                        FeedContract.Product.COLUMN_PRICE};
+                // Return all known entries.
+                builder.table(FeedContract.Product.TABLE_NAME)
+                        .where(FeedContract.Product.COLUMN_DESCRIPTION + " LIKE ?", "%"+ selectionArgs[0] + "%")
+                        .map(FeedContract.Product._ID,FeedContract.Product._ID)
+                        .map(FeedContract.Product.COLUMN_DESCRIPTION,SearchManager.SUGGEST_COLUMN_TEXT_1)
+                        .map(FeedContract.Product.COLUMN_PRICE,SearchManager.SUGGEST_COLUMN_TEXT_2);
+
+                c = builder.query(db, columns, sortOrder);
+                ctx = getContext();
+                assert ctx != null;
+                c.setNotificationUri(ctx.getContentResolver(), uri);
+                return c;
             case ROUTE_PRODUCTS_ID:
                 Log.i(TAG,"route products id");
                 // Return a single entry, by ID.
