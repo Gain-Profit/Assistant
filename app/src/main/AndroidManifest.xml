@@ -95,6 +95,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <activity
             android:name=".TransactionActivity"
             android:label="@string/title_activity_transaction"
@@ -104,6 +105,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dutaswalayan.assistant.MainActivity" />
         </activity>
+
+        <activity android:name=".SearchableProduct">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+
+        <meta-data android:name="android.app.default_searchable"
+            android:value=".SearchableProduct" />
+
     </application>
 
 </manifest>
