@@ -1,7 +1,9 @@
 package com.dutaswalayan.assistant;
 
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -28,6 +31,7 @@ public class TransactionActivity extends AppCompatActivity {
     TransactionContract.TransactionDatabase mDbTransaction;
     ListView list;
     private TextView cartTotal;
+    private SearchView searchView;
 
     private static final String[] PROJECTION = new String[]{
             Transaction._ID,
@@ -75,24 +79,7 @@ public class TransactionActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLiteDatabase db = mDbTransaction.getWritableDatabase();
-                ContentValues values = new ContentValues();
-                values.put(Transaction.COLUMN_PRODUCT_ID, "123");
-                values.put(Transaction.COLUMN_DESCRIPTION, "KOREK");
-                values.put(Transaction.COLUMN_BARCODE, "123456789");
-                values.put(Transaction.COLUMN_UNIT, "PIECES");
-                values.put(Transaction.COLUMN_PRICE, 5000);
-                values.put(Transaction.COLUMN_QTY, 5);
-
-                long insertRowId;
-                insertRowId = db.insert(
-                        Transaction.TABLE_NAME,
-                        null,
-                        values);
-                mAdapter.changeCursor(getAllData());
-
-                Snackbar.make(view, "add data ID :" + insertRowId + " to database", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                TransactionActivity.this.onSearchRequested();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
