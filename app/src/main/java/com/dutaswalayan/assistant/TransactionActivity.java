@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -88,6 +89,11 @@ public class TransactionActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.listTransaction);
 
         cartTotal = (TextView) findViewById(R.id.cartTotal);
+        if (getIntent().hasExtra("DATA_INSERTED")){
+            String extra = getIntent().getStringExtra("DATA_INSERTED");
+            Snackbar.make(getWindow().getDecorView(), "ADD " + extra + " to database success", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
     }
 
     @Override
