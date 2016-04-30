@@ -3,6 +3,7 @@ package com.dutaswalayan.assistant;
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -52,7 +53,8 @@ public class SearchableProduct extends AppCompatActivity {
 //            startActivity(wordIntent);
             Uri uri = intent.getData();
             Log.i(TAG,"uri: " + uri);
-            Cursor cursor = managedQuery(uri, null, null, null, null);
+            CursorLoader cl = new CursorLoader(this,uri, null, null, null, null);
+            Cursor cursor = cl.loadInBackground();
 
             if (cursor == null) {
                 finish();
