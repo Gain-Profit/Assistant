@@ -223,7 +223,7 @@ public class SelectionBuilder {
      * @return Fluent interface
      */
     public SelectionBuilder map(String fromColumn, String toClause) {
-        mProjectionMap.put(fromColumn, toClause + " AS " + fromColumn);
+        mProjectionMap.put(fromColumn, fromColumn + " AS " + toClause);
         return this;
     }
 
