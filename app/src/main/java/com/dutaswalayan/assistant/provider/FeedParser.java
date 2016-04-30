@@ -96,5 +96,10 @@ public class FeedParser {
             this.barcode = barcode;
             this.updated = updated;
         }
+
+        public String toString(){
+            return "[" + this.id + ", " + this.description + ", " +
+                    this.unit + ", " +this.price + ", " +this.barcode + ", " +this.updated + ", " + "]";
+        }
     }
 }
