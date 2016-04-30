@@ -17,4 +17,6 @@
     <string name="price">Price</string>
     <string name="updated">Last Update</string>
     <string name="action_clear_transaction">Clear Data</string>
+    <string name="search_label">Product</string>
+    <string name="search_hint">Search the Product</string>
 </resources>
