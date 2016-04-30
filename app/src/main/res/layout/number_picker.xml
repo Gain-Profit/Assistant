@@ -11,23 +11,23 @@
         android:layout_marginTop="20dp" />
 
     <Button
-        android:id="@+id/btnSet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btnCancel"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        style="?android:attr/buttonStyleSmall"
         android:layout_below="@+id/numberPicker"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="16dp"
         android:layout_toLeftOf="@+id/numberPicker"
-        android:text="Set" />
+        android:text="Cancel" />
 
     <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnSet"
-        android:layout_alignBottom="@+id/btnSet"
+        android:id="@+id/btnSet"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_alignBaseline="@+id/btnCancel"
+        android:layout_alignBottom="@+id/btnCancel"
         android:layout_toRightOf="@+id/numberPicker"
-        android:text="Cancel" />
+        android:text="Set" />
 
 </RelativeLayout>
