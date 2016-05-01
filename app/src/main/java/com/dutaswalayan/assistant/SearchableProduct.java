@@ -23,14 +23,11 @@ import com.dutaswalayan.assistant.provider.FeedContract;
 
 public class SearchableProduct extends AppCompatActivity {
     private static final String TAG = "SearchableProduct";
-    ListView mListViewSearch;
     TransactionContract.TransactionDatabase mDbTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searchable_product);
-        mListViewSearch = (ListView) findViewById(R.id.lvSearchProduct);
         mDbTransaction = new TransactionContract.TransactionDatabase(this);
         handleIntent(getIntent());
     }
