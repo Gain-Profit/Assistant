@@ -44,10 +44,8 @@ public class SearchableProduct extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Log.i(TAG,"action view");
-            // handles a click on a search suggestion; launches activity to show word
-//            Intent wordIntent = new Intent(this, TransactionActivity.class);
-//            wordIntent.setData(intent.getData());
-//            startActivity(wordIntent);
+            // handles a click on a search suggestion;
+            // save to the database and show all transaction.
             Uri uri = intent.getData();
             Log.i(TAG,"uri: " + uri);
             CursorLoader cl = new CursorLoader(this,uri, null, null, null, null);
