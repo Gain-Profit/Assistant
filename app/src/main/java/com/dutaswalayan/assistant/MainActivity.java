@@ -2,16 +2,13 @@ package com.dutaswalayan.assistant;
 
 import android.accounts.Account;
 import android.app.LoaderManager;
-import android.app.SearchManager;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SyncStatusObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.SearchView;
 import android.view.View;
@@ -29,7 +26,7 @@ import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.dutaswalayan.assistant.provider.FeedContract;
+import com.dutaswalayan.assistant.contract.FeedContract;
 import com.dutaswalayan.assistant.sync.GenericAccountService;
 import com.dutaswalayan.assistant.sync.SyncUtils;
 

@@ -25,7 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.dutaswalayan.assistant.provider.FeedContract;
+import com.dutaswalayan.assistant.contract.FeedContract;
 
 
 /**

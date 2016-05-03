@@ -25,10 +25,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.dutaswalayan.assistant.common.db.SelectionBuilder;
+import com.dutaswalayan.assistant.contract.FeedContract;
 
 public class FeedProvider extends ContentProvider {
     private static final String TAG = "FeedProvider";

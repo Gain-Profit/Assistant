@@ -15,11 +15,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
 
-import com.dutaswalayan.assistant.common.db.TransactionContract;
-import com.dutaswalayan.assistant.common.db.TransactionContract.Transaction;
-import com.dutaswalayan.assistant.provider.FeedContract;
+import com.dutaswalayan.assistant.contract.TransactionContract;
+import com.dutaswalayan.assistant.contract.TransactionContract.Transaction;
 
 public class SearchableProduct extends AppCompatActivity {
     private static final String TAG = "SearchableProduct";

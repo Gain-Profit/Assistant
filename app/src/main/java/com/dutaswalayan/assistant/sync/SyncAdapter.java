@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.dutaswalayan.assistant.provider.FeedContract;
+import com.dutaswalayan.assistant.contract.FeedContract;
 import com.dutaswalayan.assistant.provider.FeedParser;
 
 /**

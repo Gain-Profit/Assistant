@@ -1,10 +1,7 @@
 package com.dutaswalayan.assistant;
 
 import android.app.Dialog;
-import android.app.SearchManager;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -23,8 +20,8 @@ import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.dutaswalayan.assistant.common.db.TransactionContract;
-import com.dutaswalayan.assistant.common.db.TransactionContract.Transaction;
+import com.dutaswalayan.assistant.contract.TransactionContract;
+import com.dutaswalayan.assistant.contract.TransactionContract.Transaction;
 
 public class TransactionActivity extends AppCompatActivity {
     private static final String TAG = "TransactionActivity";
