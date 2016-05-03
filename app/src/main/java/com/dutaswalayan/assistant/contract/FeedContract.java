@@ -1,4 +1,4 @@
-package com.dutaswalayan.assistant.provider;
+package com.dutaswalayan.assistant.contract;
 
 import android.content.ContentResolver;
 import android.net.Uri;

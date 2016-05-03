@@ -1,4 +1,4 @@
-package com.dutaswalayan.assistant.common.db;
+package com.dutaswalayan.assistant.contract;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
