@@ -45,7 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.dutaswalayan.assistant.contract.FeedContract;
-import com.dutaswalayan.assistant.provider.FeedParser;
+import com.dutaswalayan.assistant.common.db.FeedParser;
 
 /**
  * Define a sync adapter for the app.

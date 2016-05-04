@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dutaswalayan.assistant.provider;
+package com.dutaswalayan.assistant.common.db;
 
 import android.util.JsonReader;
 
