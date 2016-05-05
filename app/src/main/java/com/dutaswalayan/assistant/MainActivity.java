@@ -275,6 +275,9 @@ public class MainActivity extends AppCompatActivity
             //send email...
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("message/rfc822");
+            i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"kritik.saran@gmail.com"});
+            i.putExtra(Intent.EXTRA_SUBJECT, "Kritik dan saran");
+            i.putExtra(Intent.EXTRA_TEXT   , "Saran saya...");
             try {
                 startActivity(Intent.createChooser(i, "Send mail..."));
             } catch (android.content.ActivityNotFoundException ex) {
