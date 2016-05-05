@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dutaswalayan.assistant.contract.FeedContract;
 import com.dutaswalayan.assistant.sync.GenericAccountService;
@@ -272,7 +273,13 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
             //send email...
-
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("message/rfc822");
+            try {
+                startActivity(Intent.createChooser(i, "Send mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
