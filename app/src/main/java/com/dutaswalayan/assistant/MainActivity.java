@@ -9,6 +9,7 @@ import android.content.Loader;
 import android.content.SyncStatusObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.SearchView;
 import android.view.View;
@@ -268,7 +269,8 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(this, TransactionActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_manage) {
-
+            Snackbar.make(getWindow().getDecorView(), "Not Implemented Yet.", Snackbar.LENGTH_LONG)
+                    .show();
         } else if (id == R.id.nav_send) {
             //send email...
             Intent i = new Intent(Intent.ACTION_SEND);
