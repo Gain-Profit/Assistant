@@ -269,8 +269,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
         } else if (id == R.id.nav_send) {
             //send email...
             Intent i = new Intent(Intent.ACTION_SEND);
