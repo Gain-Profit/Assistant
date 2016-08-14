@@ -10,10 +10,6 @@
             android:id="@+id/nav_transaction"
             android:icon="@drawable/ic_shopping_cart"
             android:title="Transaksi" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Alat" />
     </group>
 
     <item android:title="Communicate">
