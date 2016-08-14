@@ -268,9 +268,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_transaction) {
             Intent i = new Intent(this, TransactionActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_manage) {
-            Snackbar.make(getWindow().getDecorView(), "Not Implemented Yet.", Snackbar.LENGTH_LONG)
-                    .show();
         } else if (id == R.id.nav_send) {
             //send email...
             Intent i = new Intent(Intent.ACTION_SEND);
